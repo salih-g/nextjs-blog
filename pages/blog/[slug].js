@@ -14,7 +14,7 @@ export default function BlogPage({ title, date, content }) {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<main>
+			<main className='mx-auto'>
 				<div className='border-b-2 border-blue-100 mb-4'>
 					<h2 className='font-bold text-3xl'>{title} </h2>
 					<div className='text-gray-600 text-md'>{date}</div>
