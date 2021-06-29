@@ -1,11 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { format, parseISO } from 'date-fns';
+import { getAllPosts } from '../lib/data';
 
-import { blogPosts } from '../lib/data';
-
-export default function Home() {
+export default function Home({ posts }) {
 	return (
 		<div>
 			<Head>
@@ -15,7 +13,7 @@ export default function Home() {
 			</Head>
 
 			<div className='space-y-4'>
-				{blogPosts.map((item) => {
+				{posts.map((item) => {
 					return <BlogListItem key={item.slug} {...item} />;
 				})}
 			</div>
@@ -23,7 +21,7 @@ export default function Home() {
 	);
 }
 
-function BlogListItem({ slug, title, date, content }) {
+function BlogListItem({ slug, title, date, desc }) {
 	return (
 		<div className='border border-blue-100 shadow rounded-md p-4 hover:shadow-lg hover:border-blue-300 transition duration-200 ease-in'>
 			<div>
@@ -31,10 +29,25 @@ function BlogListItem({ slug, title, date, content }) {
 					<a className='font-bold'> {title}</a>
 				</Link>
 			</div>
-			<div className='text-gray-600 text-sm'>
-				{format(parseISO(date), 'MMM do, uuu')}
-			</div>
-			<div>{content}</div>
+			<div className='text-gray-600 text-sm'>{date}</div>
+			<div>{desc}</div>
 		</div>
 	);
+}
+
+export async function getStaticProps(context) {
+	const allPosts = getAllPosts();
+
+	return {
+		props: {
+			posts: allPosts.map(({ data, slug }) => {
+				return {
+					...data,
+					date: data.date,
+					slug,
+					desc: data.desc,
+				};
+			}),
+		},
+	};
 }

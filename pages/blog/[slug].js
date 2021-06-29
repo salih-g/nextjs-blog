@@ -1,8 +1,9 @@
 import Head from 'next/head';
 
-import { format, parseISO } from 'date-fns';
+import { serialize } from 'next-mdx-remote/serialize';
+import { MDXRemote } from 'next-mdx-remote';
 
-import { blogPosts } from '../../lib/data';
+import { getAllPosts } from '../../lib/data';
 
 export default function BlogPage({ title, date, content }) {
 	return (
@@ -16,30 +17,37 @@ export default function BlogPage({ title, date, content }) {
 			<main>
 				<div className='border-b-2 border-blue-100 mb-4'>
 					<h2 className='font-bold text-3xl'>{title} </h2>
-					<div className='text-gray-600 text-md'>
-						{format(parseISO(date), 'MMM do, uuu')}
-					</div>
+					<div className='text-gray-600 text-md'>{date}</div>
 				</div>
-				<div>{content} </div>
+				<div className='prose'>
+					<MDXRemote {...content} />
+				</div>
 			</main>
 		</div>
 	);
 }
 
 export async function getStaticProps(context) {
-	console.log('hi!', context);
 	const { params } = context;
 
+	const allPosts = getAllPosts();
+	const { data, content } = allPosts.find((item) => item.slug === params.slug);
+	const mdxSource = await serialize(content);
+
 	return {
-		props: blogPosts.find((item) => item.slug === params.slug),
+		props: {
+			...data,
+			date: data.date,
+			content: mdxSource,
+		},
 	};
 }
 
 export async function getStaticPaths() {
 	return {
-		paths: blogPosts.map((item) => ({
+		paths: getAllPosts().map((post) => ({
 			params: {
-				slug: item.slug,
+				slug: post.slug,
 			},
 		})),
 		fallback: false,
