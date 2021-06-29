@@ -25,7 +25,7 @@ export default function Home() {
 									<a> {item.title}</a>
 								</Link>
 							</div>
-							<div>{item.date.toString()}</div>
+							<div>{item.date}</div>
 							<div>{item.content}</div>
 						</div>
 					);
