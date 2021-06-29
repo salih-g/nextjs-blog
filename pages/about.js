@@ -1,16 +1,16 @@
 import Head from 'next/head';
 
-export default function Home() {
+export default function About() {
 	return (
 		<div>
 			<Head>
-				<title>Özgür Yazar | AnaSayfa</title>
+				<title>Özgür Yazar | Hakkımda</title>
 				<meta name='description' content='Özgür Yazar' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
 			<main>
-				<h1>Özgür Yazar</h1>
+				<h1>Hakkımda</h1>
 			</main>
 		</div>
 	);
