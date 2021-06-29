@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
+
+import upImage from '../public/up.png';
 
 import { getAllPosts } from '../lib/data';
 
@@ -12,13 +15,29 @@ export default function Home({ posts }) {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div className='space-y-4'>
+			<main className='space-y-4'>
 				{posts.map((item) => {
 					return <BlogListItem key={item.slug} {...item} />;
 				})}
-			</div>
+				<div
+					onClick={backToTop}
+					className='fixed z-30 bottom-0 right-0 mr-6 mb-6'
+				>
+					<Image
+						src={upImage}
+						alt='Picture of the author'
+						width={50}
+						height={50}
+					/>
+				</div>
+			</main>
 		</div>
 	);
+}
+
+function backToTop() {
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
 }
 
 function BlogListItem({ slug, title, date, desc }) {

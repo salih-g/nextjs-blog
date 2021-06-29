@@ -1,9 +1,12 @@
 import Head from 'next/head';
+import Image from 'next/image';
 
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 
 import { getAllPosts } from '../../lib/data';
+
+import upImage from '../../public/up.png';
 
 export default function BlogPage({ title, date, content }) {
 	return (
@@ -23,8 +26,25 @@ export default function BlogPage({ title, date, content }) {
 					<MDXRemote {...content} />
 				</div>
 			</main>
+
+			<div
+				onClick={backToTop}
+				className='fixed z-30 bottom-0 right-0 mr-6 mb-6'
+			>
+				<Image
+					src={upImage}
+					alt='Picture of the author'
+					width={50}
+					height={50}
+				/>
+			</div>
 		</div>
 	);
+}
+
+function backToTop() {
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
 }
 
 export async function getStaticProps(context) {
