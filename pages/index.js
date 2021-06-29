@@ -23,14 +23,13 @@ export default function Home({ posts }) {
 
 function BlogListItem({ slug, title, date, desc }) {
 	return (
-		<div className='border border-blue-100 shadow rounded-md p-4 hover:shadow-lg hover:border-blue-300 transition duration-200 ease-in'>
-			<div>
-				<Link href={`/blog/${slug}`}>
-					<a className='font-bold'> {title}</a>
-				</Link>
-			</div>
+		<div className='border border-blue-200 shadow rounded-md p-4 hover:shadow-lg hover:border-blue-300 transition duration-200 ease-in'>
+			<h2 className='font-bold text-xl'>{title}</h2>
 			<div className='text-gray-600 text-sm'>{date}</div>
-			<div>{desc}</div>
+			<div>{desc.substr(0, 300)}</div>
+			<Link href={`/blog/${slug}`}>
+				<a className='font-bold'> Devamını okumak için tıklayın...</a>
+			</Link>
 		</div>
 	);
 }
